@@ -6,6 +6,7 @@ RUN apk add --no-cache \
   git \
   make \
   gcc \
+  clang \
   util-linux-dev \
   ncurses-dev
 
@@ -14,6 +15,7 @@ WORKDIR /usr/src
 RUN git clone https://github.com/cisco/ChezScheme.git --branch $CHEZ_SCHEME_VERSION
 RUN git clone https://github.com/edwinb/Idris2.git
 ENV PREFIX /usr/local
+ENV IDRIS_CC=clang
 WORKDIR /usr/src/ChezScheme
 RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
 RUN ./configure --installprefix=$PREFIX --threads --disable-x11 && make install
@@ -34,6 +36,7 @@ RUN apk add --no-cache \
   musl-dev \
   gmp-dev \
   gcc \
+  clang \
   libuuid
 
 COPY --from=builder /usr/local /usr/local
