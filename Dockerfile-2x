@@ -13,7 +13,7 @@ RUN set -ex \
   ; apk add --no-cache tzdata \
       sudo shadow pwgen xz zstd tree \
       curl wget socat rsync jq \
-      bash zsh neovim git tmux \
+      bash zsh neovim git \
       openssh-client openssh-server openssl \
   ; ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime \
   ; echo "$TIMEZONE" > /etc/timezone \
