@@ -1,5 +1,5 @@
 FROM nnurphy/idr:1 as builder
-ARG VERSION=0.1.0
+ARG VERSION=0.2.0
 ARG CHEZ_SCHEME_VERSION=v9.5.2
 
 RUN apk add --no-cache \
