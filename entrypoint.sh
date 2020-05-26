@@ -8,7 +8,7 @@ DAEMON=sshd
 
 print_fingerprints() {
     local BASE_DIR=${1-'/etc/ssh'}
-    for item in dsa rsa ecdsa ed25519; do
+    for item in rsa ecdsa ed25519; do
         echo ">>> Fingerprints for ${item} host key"
         ssh-keygen -E md5 -lf ${BASE_DIR}/ssh_host_${item}_key
         ssh-keygen -E sha256 -lf ${BASE_DIR}/ssh_host_${item}_key
@@ -17,6 +17,11 @@ print_fingerprints() {
 }
 
 init() {
+    env | grep _ >> /etc/environment
+
+    if [[ "${SSH_OVERRIDE_HOST_KEYS}" == "true" ]]; then
+        rm -rf /etc/ssh/ssh_host_*
+    fi
     # Generate Host keys, if required
     if ls /etc/ssh/ssh_host_* 1> /dev/null 2>&1; then
         echo ">> Host keys exist in default location"

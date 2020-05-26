@@ -1,45 +1,13 @@
-FROM nnurphy/idr:1 as builder
-ARG VERSION=0.2.0
-ARG CHEZ_SCHEME_VERSION=v9.5.2
+FROM nnurphy/idr:1 as base
+ARG VERSION=v0.2.0
 
-RUN apk add --no-cache \
-  git \
-  make \
-  gcc \
-  clang \
-  util-linux-dev \
-  ncurses-dev
-
-RUN mkdir -p /usr/src
-WORKDIR /usr/src
-RUN git clone https://github.com/cisco/ChezScheme.git --branch $CHEZ_SCHEME_VERSION
+WORKDIR /
+RUN apt-get update && apt-get -y install build-essential git clang
 RUN git clone https://github.com/edwinb/Idris2.git
-ENV PREFIX /usr/local
-ENV IDRIS_CC=clang
-WORKDIR /usr/src/ChezScheme
-RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
-RUN ./configure --installprefix=$PREFIX --threads --disable-x11 && make install
-WORKDIR /usr/src/Idris2
-# Hack: the network library has ${HOME}/.idris2 hard-coded instead of using PREFIX
-RUN mkdir -p ${HOME}/.idris2/idris2/network/lib
-#RUN make install
-# Chez Scheme tests fail - we therefore replace make install by the following
-RUN make idris2 libs install-exec install-libs
+WORKDIR /Idris2
+RUN git checkout ${VERSION}
+RUN make install
 
-FROM alpine:latest
-
-RUN apk add --no-cache \
-  libffi \
-  ncurses \
-  musl \
-  zlib \
-  musl-dev \
-  gmp-dev \
-  gcc \
-  clang \
-  libuuid
-
-COPY --from=builder /usr/local /usr/local
-VOLUME /home/idris
-WORKDIR /home/idris
-CMD ["/usr/local/bin/idris2"]
+FROM ubuntu:focal
+COPY --from=base /root/.idris2 /root/.idris2
+ENTRYPOINT ["/root/.idris2/bin/idris2"]

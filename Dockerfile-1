@@ -1,29 +1,15 @@
-FROM alpine:latest as builder
+# Idris doesn't build with GHC 8.8
+# See https://github.com/idris-lang/Idris-dev/issues/4845
+FROM haskell:8.6 as base
 ARG VERSION=1.3.2
-ENV IDRIS_VERSION ${VERSION}
-RUN apk add --no-cache \
-  libffi-dev \
-  ncurses-dev \
-  alpine-sdk \
-  musl-dev \
-  zlib-dev \
-  ghc \
-  cabal
-RUN cabal update && cabal install -f FFI -f LLVM -f GMP idris-${IDRIS_VERSION}
 
-FROM alpine:latest
-RUN apk add --no-cache \
-  libffi \
-  ncurses \
-  musl \
-  zlib \
-  musl-dev \
-  gmp-dev \
-  gcc
+RUN apt-get update && apt-get -y install build-essential
+RUN cabal update && mkdir -p /root/.cabal/bin && echo "user-install: False" >> /root/.cabal/config
+RUN cabal install idris-${VERSION}
 
-COPY --from=builder /root/.cabal/bin /root/.cabal/bin
-COPY --from=builder /root/.cabal/share /root/.cabal/share
-VOLUME /home/idris
-WORKDIR /home/idris
-ENV PATH ${PATH}:/root/.cabal/bin
-CMD ["idris"]
+FROM ubuntu
+COPY --from=base /usr/local/bin /usr/local/bin
+COPY --from=base /usr/local/lib /usr/local/lib
+COPY --from=base /usr/local/share /usr/local/share
+
+ENTRYPOINT ["idris"]
