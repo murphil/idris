@@ -25,7 +25,7 @@ RUN set -ex \
         -e 's!.*\(ChallengeResponseAuthentication\).*yes!\1 no!' \
         -e 's!.*\(PasswordAuthentication\).*yes!\1 no!'
 
-ENV just_version=0.6.1
+ENV just_version=0.7.1
 ENV watchexec_version=1.14.0
 ENV yq_version=3.3.2
 ENV websocat_version=1.6.0
