@@ -6,8 +6,9 @@ RUN apt-get update && apt-get -y install build-essential git clang
 RUN git clone https://github.com/idris-lang/Idris2.git
 WORKDIR /Idris2
 RUN git checkout ${VERSION}
+RUN make bootstrap SCHEME=chez
 RUN make install
 
-FROM ubuntu:focal
+FROM nnurphy/ub
 COPY --from=base /root/.idris2 /root/.idris2
 ENTRYPOINT ["/root/.idris2/bin/idris2"]
