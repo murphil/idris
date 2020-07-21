@@ -1,0 +1,25 @@
+
+FROM nnurphy/ub
+ARG CHEZ_VERSION=9.5.2
+ARG IDRIS_VERSION=0.2.0
+
+RUN set -eux \
+  ; apt-get update && apt-get -y install clang \
+  ; cd / \
+  ; wget https://github.com/cisco/ChezScheme/archive/v${CHEZ_VERSION}.tar.gz \
+  ; tar xvzf v${CHEZ_VERSION}.tar.gz \
+  ; rm v${CHEZ_VERSION}.tar.gz \
+  ; cd ChezScheme-${CHEZ_VERSION} \
+  ; ./configure --threads \
+  ; make -j install \
+  ; cd / \
+  ; rm -rf ChezScheme-${CHEZ_VERSION} \
+  ; git clone https://github.com/idris-lang/Idris2.git \
+  ; cd /Idris2 \
+  ; git checkout v${IDRIS_VERSION} \
+  ; make bootstrap SCHEME=chez \
+  ; make install \
+  ; cd / \
+  ; rm -rf Idris2
+
+ENTRYPOINT ["/root/.idris2/bin/idris2"]
