@@ -4,13 +4,13 @@ ARG CHEZ_VERSION=9.5.2
 ARG IDRIS_VERSION=0.2.0
 
 RUN set -eux \
-  ; apt-get update && apt-get -y install clang \
+  ; apt-get update && apt-get -y install clang uuid-dev libncurses5-dev \
   ; cd / \
   ; wget https://github.com/cisco/ChezScheme/archive/v${CHEZ_VERSION}.tar.gz \
   ; tar xvzf v${CHEZ_VERSION}.tar.gz \
   ; rm v${CHEZ_VERSION}.tar.gz \
   ; cd ChezScheme-${CHEZ_VERSION} \
-  ; ./configure --threads \
+  ; ./configure --threads --disable-x11 \
   ; make -j install \
   ; cd / \
   ; rm -rf ChezScheme-${CHEZ_VERSION} \
