@@ -13,11 +13,14 @@ RUN set -eux \
   ; ./configure --threads --disable-x11 \
   ; make -j install \
   ; cd / \
-  ; rm -rf ChezScheme-${CHEZ_VERSION} \
+  ; rm -rf ChezScheme-${CHEZ_VERSION}
+
+RUN set -eux \
+  ; cd / \
   ; git clone https://github.com/idris-lang/Idris2.git \
   ; cd /Idris2 \
   ; git checkout v${IDRIS_VERSION} \
-  ; make bootstrap SCHEME=chez \
+  ; make bootstrap SCHEME=scheme \
   ; make install \
   ; cd / \
   ; rm -rf Idris2
