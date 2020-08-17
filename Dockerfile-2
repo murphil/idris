@@ -1,5 +1,5 @@
 FROM nnurphy/idr:1 as base
-ARG VERSION=v0.2.0
+ARG VERSION=v0.2.1
 
 WORKDIR /
 RUN apt-get update && apt-get -y install build-essential git clang

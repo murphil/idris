@@ -1,7 +1,7 @@
 
 FROM nnurphy/ub
 ARG CHEZ_VERSION=9.5.2
-ARG IDRIS_VERSION=0.2.0
+ARG IDRIS_VERSION=0.2.1
 
 RUN set -eux \
   ; apt-get update && apt-get -y install clang uuid-dev libncurses5-dev \
