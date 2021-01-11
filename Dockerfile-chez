@@ -12,11 +12,11 @@ RUN set -eux \
   ; wget -q https://github.com/cisco/ChezScheme/archive/${chez_version}.tar.gz \
   ; tar xvzf ${chez_version}.tar.gz \
   ; rm ${chez_version}.tar.gz \
-  ; cd ChezScheme-${chez_version:1} \
+  ; cd ChezScheme-$(echo $chez_version | sed 's/^v\(.*\)/\1/') \
   ; ./configure --threads --disable-x11 \
   ; make -j install \
   ; cd / \
-  ; rm -rf ChezScheme-${chez_version:1}
+  ; rm -rf ChezScheme-$(echo $chez_version | sed 's/^v\(.*\)/\1/')
 
 RUN set -eux \
   ; cd / \
