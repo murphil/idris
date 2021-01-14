@@ -23,7 +23,7 @@ RUN set -eux \
   ; idris_version=$(curl -sSL -H $github_header $github_api/${idris_repo}/releases | jq -r '.[0].tag_name') \
   ; git clone https://github.com/idris-lang/Idris2.git \
   ; cd /Idris2 \
-  ; git checkout v0.2.2 \
+  ; git checkout v0.3.0 \
   ; make bootstrap SCHEME=scheme \
   ; make install \
   ; cd / \
