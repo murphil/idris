@@ -3,7 +3,7 @@ ARG VERSION=v0.2.1
 
 WORKDIR /
 RUN apt-get update && apt-get -y install build-essential git clang
-RUN wget https://github.com/cisco/ChezScheme/archive/v9.5.2.tar.gz && \
+RUN curl -sSLO https://github.com/cisco/ChezScheme/archive/v9.5.2.tar.gz && \
   tar xvzf v9.5.2.tar.gz && \
   cd ChezScheme-9.5.2 && \
   ./configure --threads && \

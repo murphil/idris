@@ -9,7 +9,7 @@ RUN set -eux \
   ; apt-get update && apt-get -y install make gcc uuid-dev libncurses5-dev \
   ; cd / \
   ; chez_version=$(curl -sSL -H "'$github_header'" $github_api/${chez_repo}/releases | jq -r '.[0].tag_name') \
-  ; wget -q https://github.com/cisco/ChezScheme/archive/${chez_version}.tar.gz \
+  ; curl -sSLO https://github.com/cisco/ChezScheme/archive/${chez_version}.tar.gz \
   ; tar xvzf ${chez_version}.tar.gz \
   ; rm ${chez_version}.tar.gz \
   ; cd ChezScheme-$(echo $chez_version | sed 's/^v\(.*\)/\1/') \
